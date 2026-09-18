@@ -1,0 +1,71 @@
+# ==========================================
+# Folder Buangan / Auto-Generated Unity
+# ==========================================
+/[Ll]ibrary/
+/[Tt]emp/
+/[Ob]j/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Mm]emoryCaptures/
+/[Uu]serSettings/
+/[Ee]xportedObj/
+
+# ==========================================
+# File Project & IDE (Visual Studio / Rider / VSCode)
+# ==========================================
+.vs/
+.vscode/
+.idea/
+.gradle/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# ==========================================
+# Build Outputs & Package
+# ==========================================
+*.apk
+*.aab
+*.app
+*.unitypackage
+
+# ==========================================
+# Plastic SCM / Unity Cloud Plugin
+# ==========================================
+/[Aa]ssets/Plugins/PlasticSCM*
+/[Aa]ssets/AssetStoreTools/
+
+# ==========================================
+# Addressables & Temporary Files
+# ==========================================
+/[Aa]ssets/AddressableAssetsData/*/*.bin*
+/[Aa]ssets/StreamingAssets/aa.meta
+/[Aa]ssets/StreamingAssets/*/aa/*
+sysinfo.txt
+crashlytics-build.properties
+~UnityDirMonSyncFile~*
+*.tmp
+*.private
+*.private.meta
+
+# ==========================================
+# OS Generated Files
+# ==========================================
+.DS_Store*
+Thumbs.db
+Desktop.ini
