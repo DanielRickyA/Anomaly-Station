@@ -8,10 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float slowSpeed = 2.5f;
     [SerializeField] private InputActionReference moveActionRefrence;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite spriteFront;
-    [SerializeField] private Sprite spriteBack;
-    [SerializeField] private Sprite spriteSide;
+
     private Rigidbody2D rb;
+    private Animator animator;
     private Vector2 moveInput;
     private float currentSpeed;
     // private bool isInWater = false;
@@ -19,6 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         currentSpeed = moveSpeed;
     }
@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        UpdateSpriteDirection();
+        UpdateAnimationDirection();
     }
 
     // Buat nyimpen arah dari input player
@@ -60,31 +60,22 @@ public class PlayerMovement : MonoBehaviour
         moveActionRefrence.action.Disable();
     }
 
-    private void UpdateSpriteDirection()
+    private void UpdateAnimationDirection()
     {
-        if (moveInput == Vector2.zero) return;
+        bool isMoving = moveInput != Vector2.zero;
+        animator.SetBool("IsMoving", isMoving);
 
-        if (Mathf.Abs(moveInput.y) > Mathf.Abs(moveInput.x))
+        if (isMoving)
         {
-            if (moveInput.y > 0)
-            {
-                spriteRenderer.sprite = spriteBack;
-            }
-            else if (moveInput.y < 0)
-            {
-                spriteRenderer.sprite = spriteFront;
-            }
-        }
-        else
-        {
+            animator.SetFloat("LastMoveX", moveInput.x);
+            animator.SetFloat("LastMoveY", moveInput.y);
+
             if (moveInput.x < 0)
             {
-                spriteRenderer.sprite = spriteSide;
                 spriteRenderer.flipX = false;
             }
             else if (moveInput.x > 0)
             {
-                spriteRenderer.sprite = spriteSide;
                 spriteRenderer.flipX = true;
             }
         }
