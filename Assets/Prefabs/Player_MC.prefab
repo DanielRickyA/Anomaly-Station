@@ -584,7 +584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8f477c2f6552e048a4c398273e74657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoveTopDown
-  moveSpeed: 4
+  moveSpeed: 3
   slowSpeed: 2
   moveActionRefrence: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   spriteRenderer: {fileID: 3377540458505321849}
