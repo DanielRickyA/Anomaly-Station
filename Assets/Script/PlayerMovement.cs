@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimationDirection()
     {
         bool isMoving = moveInput != Vector2.zero;
-        animator.SetBool("IsMoving", isMoving);
+        animator.SetBool("isMoving", isMoving);
 
         if (isMoving)
         {
