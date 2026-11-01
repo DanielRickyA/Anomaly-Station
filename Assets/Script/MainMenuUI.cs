@@ -31,6 +31,7 @@ public class MainMenuUI : MonoBehaviour
     {
         SceneManager.LoadScene(level1BuildIndex);
     }
+        
 
     public void OnContinuePressed()
     {
