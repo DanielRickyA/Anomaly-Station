@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,10 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Vector2 moveInput;
     private float currentSpeed;
-    // private bool isInWater = false;
+
+    private bool isInPuddle = false;
+    private float puddleTimer = 0f;
+    private bool isLocked = false;
 
     private void Awake()
     {
@@ -25,18 +29,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isLocked)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
         rb.MovePosition(rb.position + moveInput.normalized * currentSpeed * Time.fixedDeltaTime);
 
     }
 
     private void Update()
     {
+        if (isLocked) return;
         UpdateAnimationDirection();
+        HandlePuddleTimer();
     }
 
     // Buat nyimpen arah dari input player
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
+        if (isLocked) return;
         moveInput = context.ReadValue<Vector2>();
     }
 
@@ -85,7 +97,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Puddle"))
         {
-            // isInWater = true;
+            isInPuddle = true;
+            currentSpeed = slowSpeed;
+            puddleTimer = 0f;
             currentSpeed = slowSpeed;
             Debug.Log("Player entered water. Speed reduced to: " + currentSpeed);
         }
@@ -95,8 +109,47 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Puddle"))
         {
-            // isInWater = false;
+            isInPuddle = true;
+            currentSpeed = slowSpeed;
+            puddleTimer = 0f;
             currentSpeed = moveSpeed;
+        }
+    }
+
+    private void HandlePuddleTimer()
+    {
+        if (isInPuddle)
+        {
+            puddleTimer += Time.deltaTime;
+            if (puddleTimer >= 3f)
+            {
+                StartCoroutine(TriggerSlipRoutine());
+                puddleTimer = 0f;
+            }
+        }
+    }
+
+    private IEnumerator TriggerSlipRoutine()
+    {
+        isLocked = true;
+
+        moveInput = Vector2.zero;
+        currentSpeed = moveSpeed;
+
+        animator.SetBool("isSlip", true);
+        animator.SetBool("isMoving", false);
+
+        yield return new WaitForSeconds(1f);
+
+        animator.SetBool("isSlip", false);
+        isLocked = false;
+
+        Vector2 currentKeyboardInput = moveActionRefrence.action.ReadValue<Vector2>();
+        moveInput = currentKeyboardInput;
+
+        if (isInPuddle)
+        {
+            currentSpeed = slowSpeed;
         }
     }
 
