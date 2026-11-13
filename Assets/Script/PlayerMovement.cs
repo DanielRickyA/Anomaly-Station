@@ -109,24 +109,31 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.CompareTag("Puddle"))
         {
-            isInPuddle = true;
+            isInPuddle = false;
             currentSpeed = slowSpeed;
             puddleTimer = 0f;
-            currentSpeed = moveSpeed;
         }
     }
 
     private void HandlePuddleTimer()
     {
-        if (isInPuddle)
+        bool isMoving = moveInput != Vector2.zero;
+
+        if (isInPuddle && isMoving)
         {
+
             puddleTimer += Time.deltaTime;
-            if (puddleTimer >= 3f)
+            if (puddleTimer >= 2f)
             {
                 StartCoroutine(TriggerSlipRoutine());
                 puddleTimer = 0f;
             }
         }
+        else
+        {
+            puddleTimer = 0f;
+        }
+
     }
 
     private IEnumerator TriggerSlipRoutine()
