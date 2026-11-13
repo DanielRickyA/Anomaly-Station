@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float slowSpeed = 2.5f;
     [SerializeField] private InputActionReference moveActionRefrence;
     [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private AudioSource slipAudioSource;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -23,7 +24,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
         if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+        if (slipAudioSource == null) slipAudioSource = GetComponent<AudioSource>();
+
         currentSpeed = moveSpeed;
     }
 
@@ -145,6 +149,11 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetBool("isSlip", true);
         animator.SetBool("isMoving", false);
+
+        if (slipAudioSource != null && !slipAudioSource.isPlaying)
+        {
+            slipAudioSource.Play();
+        }
 
         yield return new WaitForSeconds(1f);
 
